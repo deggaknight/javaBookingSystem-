@@ -301,7 +301,25 @@
       ]
     });
   })
+/**
+ * A way to calculate percentage
+ * This is a custom function
+ */
+    document.getElementById("Form1").addEventListener("submit", async function (event) {
+        event.preventDefault(); // Prevent form from reloading page
 
+        const name = document.getElementById("NameSurname").value;
+
+        // Send data to backend
+        const response = await fetch("http://localhost:5000/submit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name: name }),
+        });
+
+        const data = await response.json();
+        alert("Response from server: " + data.message);
+    });
   /**
    * Autoresize echart charts
    */
