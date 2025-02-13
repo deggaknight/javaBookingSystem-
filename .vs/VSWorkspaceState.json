@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\NiceAdmin"
+    "\\NiceAdmin",
+    "\\NiceAdmin\\assets",
+    "\\NiceAdmin\\assets\\css",
+    "\\NiceAdmin\\assets\\js"
   ],
   "PreviewInSolutionExplorer": false
 }
