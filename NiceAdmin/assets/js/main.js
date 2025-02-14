@@ -306,7 +306,51 @@
  * This is a custom function
  */
 
+document.getElementById("Form1").addEventListener("submit", async function (event) {
+  event.preventDefault(); // Prevent form reload
 
+  //so this will create a random serial number to help create a unique id for each entry
+  const serialNumber = "SN-" + Math.floor(100000 + Math.random() * 900000);
+  // Get the form data
+  const name = document.getElementById("name").value;
+  const email = document.getElementById("EmailInput").value;
+  const number = document.getElementById("Number").value;
+  const idNumber = document.getElementById("IdNumber").value;
+  const date = document.getElementById("DateInput").value;
+  const timeIn = document.getElementById("Time-in").value;
+  const timeOut = document.getElementById("Time-out").value;
+
+
+  // Get the selected radio button value
+  const selectedStatus = document.querySelector('input[name="gridRadios"]:checked')?.value || "";
+
+  // Update count based on status
+  let employeeCount = parseInt(localStorage.getItem("employeeCount")) || 0;
+  let studentCount = parseInt(localStorage.getItem("studentCount")) || 0;
+  let visitorCount = parseInt(localStorage.getItem("visitorCount")) || 0;
+
+  if (selectedStatus === "option1") {
+      employeeCount++;
+      localStorage.setItem("employeeCount", employeeCount);
+  } else if (selectedStatus === "option2") {
+      studentCount++;
+      localStorage.setItem("studentCount", studentCount);
+  } else if (selectedStatus === "option3") {
+      visitorCount++;
+      localStorage.setItem("visitorCount", visitorCount);
+  }
+  console.log(`Serial Number: ${serialNumber}, Employees: ${employeeCount}, Students: ${studentCount}, Visitors: ${visitorCount}`);
+
+  // Send form-encoded data with 'action=submit'
+  const response = await fetch("https://script.google.com/macros/s/AKfycbwWMgHgeFY4s0xg6zQ0AxE3tyC9KcCDcupz6O-ljavav_gCZHCI4_o3qW6-VjHboY51sQ/exec", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: `action=submit&serialNumber=${encodeURIComponent(serialNumber)}&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&number=${encodeURIComponent(number)}&idNumber=${encodeURIComponent(idNumber)}&date=${encodeURIComponent(date)}&timeIn=${encodeURIComponent(timeIn)}&timeOut=${encodeURIComponent(timeOut)}&status=${encodeURIComponent(selectedStatus)}`
+  });
+
+  const result = await response.text();
+  alert(result); // Shows the response (Success message from Google Apps Script)
+});
 
   /**
    * Autoresize echart charts
